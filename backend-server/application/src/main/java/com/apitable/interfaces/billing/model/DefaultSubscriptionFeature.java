@@ -148,72 +148,72 @@ public class DefaultSubscriptionFeature implements SubscriptionFeature {
 
     @Override
     public SocialConnect getSocialConnect() {
-        return new SocialConnect(false);
+        return new SocialConnect(true);
     }
 
     @Override
     public RainbowLabel getRainbowLabel() {
-        return new RainbowLabel(false);
+        return new RainbowLabel(true);
     }
 
     @Override
     public Watermark getWatermark() {
-        return new Watermark(false);
+        return new Watermark(true);
     }
 
     @Override
     public AllowInvitation getAllowInvitation() {
-        return new AllowInvitation(false);
+        return new AllowInvitation(true);
     }
 
     @Override
     public AllowApplyJoin getAllowApplyJoin() {
-        return new AllowApplyJoin(false);
+        return new AllowApplyJoin(true);
     }
 
     @Override
     public AllowShare getAllowShare() {
-        return new AllowShare(false);
+        return new AllowShare(true);
     }
 
     @Override
     public AllowExport getAllowExport() {
-        return new AllowExport(false);
+        return new AllowExport(true);
     }
 
     @Override
     public AllowDownload getAllowDownload() {
-        return new AllowDownload(false);
+        return new AllowDownload(true);
     }
 
     @Override
     public AllowCopyData getAllowCopyData() {
-        return new AllowCopyData(false);
+        return new AllowCopyData(true);
     }
 
     @Override
     public AllowEmbed getAllowEmbed() {
-        return new AllowEmbed(false);
+        return new AllowEmbed(true);
     }
 
     @Override
     public ControlFormBrandLogo getControlFormBrandLogo() {
-        return new ControlFormBrandLogo(false);
+        return new ControlFormBrandLogo(true);
     }
 
     @Override
     public ShowMobileNumber getShowMobileNumber() {
-        return new ShowMobileNumber(false);
+        return new ShowMobileNumber(true);
     }
 
     @Override
     public ContactIsolation getContactIsolation() {
-        return new ContactIsolation(false);
+        return new ContactIsolation(true);
     }
 
     @Override
     public ForbidCreateOnCatalog getForbidCreateOnCatalog() {
-        return new ForbidCreateOnCatalog(false);
+        return new ForbidCreateOnCatalog(true);
     }
 
     @Override
@@ -233,11 +233,11 @@ public class DefaultSubscriptionFeature implements SubscriptionFeature {
 
     @Override
     public AuditQueryDays getAuditQueryDays() {
-        return new AuditQueryDays(0L);
+        return new AuditQueryDays(30L);
     }
 
     @Override
     public AllowOrgApi getAllowOrgApi() {
-        return new AllowOrgApi(false);
+        return new AllowOrgApi(true);
     }
 }

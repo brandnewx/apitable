@@ -29,7 +29,7 @@ import static com.apitable.workspace.enums.PermissionException.CAN_OP_MAIN_ADMIN
 import static com.apitable.workspace.enums.PermissionException.SET_MAIN_ADMIN_FAIL;
 import static com.apitable.workspace.enums.PermissionException.TRANSFER_SELF;
 
-import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollUtil; 
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.BooleanUtil;
@@ -153,6 +153,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
@@ -245,6 +246,9 @@ public class SpaceServiceImpl extends ServiceImpl<SpaceMapper, SpaceEntity>
     @Resource
     private InternalSpaceService internalSpaceService;
 
+    @Value("${RICHFAST_ADMIN_UUID:}")
+    private String richfastAdminUuid;
+
     @Value("${SKIP_USAGE_VERIFICATION:false}")
     private Boolean skipUsageVerification;
 
@@ -279,6 +283,11 @@ public class SpaceServiceImpl extends ServiceImpl<SpaceMapper, SpaceEntity>
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Space createSpace(final UserEntity user, final String spaceName) {
+        // Custom: Forbid non-admin users from creating spaces.
+        if (!(StringUtils.isNotEmpty(richfastAdminUuid) && richfastAdminUuid.equals(user.getUuid()))) {
+            ExceptionUtil.isFalse(true, SpaceException.NUMBER_LIMIT);
+        }
+
         Long userId = user.getId();
         // Check whether the user reaches the upper limit
         boolean limit = this.checkSpaceNumber(userId);

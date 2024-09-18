@@ -124,6 +124,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.Session;
@@ -143,6 +144,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity>
     private static final int USER_IS_PAUSED_CLOSE_DAY = 30;
 
     private static final int QUERY_LOCALE_IN_EMAILS_LIMIT = 200;
+
+    @Value("${RICHFAST_REGISTER_ENABLED:true}")
+    private boolean richfastRegisterEnabled;
+
+    @Value("${RICHFAST_REGISTER_EMAIL_DOMAIN:}")
+    private String richfastRegisterEmailDomain;
 
     @Resource
     private LoginUserCacheService loginUserCacheService;
@@ -358,6 +365,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity>
 
     @Override
     public boolean saveUser(final UserEntity user) {
+        // Custom: Forbid non-admin register account
+        if (!richfastRegisterEnabled) {
+            return false;
+        }
+        if (StringUtils.isNotEmpty(richfastRegisterEmailDomain)) {
+            if (StringUtils.isEmpty(user.getEmail()) || !StringUtils.endsWith(user.getEmail(), richfastRegisterEmailDomain)) {
+                return false;
+            }
+        }
+
         boolean flag = save(user);
         TaskManager.me().execute(() -> {
             // jump to third site

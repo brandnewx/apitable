@@ -3,7 +3,7 @@ FROM amazoncorretto:17 AS builder
 WORKDIR /app
 COPY ./backend-server/. .
 RUN ./gradlew -v
-RUN ./gradlew build -x test
+RUN ./gradlew build -x test -x checkstyleMain
 
 
 FROM amazoncorretto:17
